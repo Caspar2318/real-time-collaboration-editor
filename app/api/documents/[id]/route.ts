@@ -25,7 +25,28 @@ export async function GET(
   const document = await db.document.findFirst({
     where: {
       id,
-      ownerId: userId,
+      OR: [
+        { ownerId: userId },
+        {
+          collaborators: {
+            some: {
+              userId,
+            },
+          },
+        },
+      ],
+    },
+    include: {
+      collaborators: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+            },
+          },
+        },
+      },
     },
   });
 
@@ -33,7 +54,12 @@ export async function GET(
     return NextResponse.json({ error: "Document not found." }, { status: 404 });
   }
 
-  return NextResponse.json({ document });
+  return NextResponse.json({
+    document: {
+      ...document,
+      isOwner: document.ownerId === userId,
+    },
+  });
 }
 
 export async function PATCH(
@@ -47,14 +73,37 @@ export async function PATCH(
   }
 
   const { id } = await params;
-  const { title, content } = await req.json();
+  const { title, content, updatedAt } = await req.json();
 
   const existingDocument = await db.document.findFirst({
     where: {
       id,
-      ownerId: userId,
+      OR: [
+        { ownerId: userId },
+        {
+          collaborators: {
+            some: {
+              userId,
+            },
+          },
+        },
+      ],
     },
   });
+
+  if (
+    new Date(existingDocument!.updatedAt).getTime() !==
+    new Date(updatedAt).getTime()
+  ) {
+    return NextResponse.json(
+      {
+        error: "Conflict detected. Document has newer changes.",
+        conflict: true,
+        latestDocument: existingDocument,
+      },
+      { status: 409 },
+    );
+  }
 
   if (!existingDocument) {
     return NextResponse.json({ error: "Document not found." }, { status: 404 });
@@ -65,8 +114,14 @@ export async function PATCH(
     data: {
       title,
       content,
+      updatedAt,
     },
   });
 
-  return NextResponse.json({ document });
+  return NextResponse.json({
+    document: {
+      ...document,
+      isOwner: document.ownerId === userId,
+    },
+  });
 }

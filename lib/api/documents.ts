@@ -42,7 +42,7 @@ export async function createDocument(title: string) {
 
 export async function updateDocument(
   id: string,
-  payload: { title: string; content: string },
+  payload: { title: string; content: string; updatedAt: string },
 ) {
   const res = await fetch(`/api/documents/${id}`, {
     method: "PATCH",
@@ -55,6 +55,14 @@ export async function updateDocument(
   const data = await res.json();
 
   if (!res.ok) {
+    if (res.status === 409) {
+      throw {
+        type: "conflict",
+        message: data.error,
+        latestDocument: data.latestDocument,
+      };
+    }
+
     throw new Error(data.error || "Failed to update document");
   }
 

@@ -73,41 +73,38 @@ export default function DocumentsPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 px-6 py-8">
+    <main className="min-h-screen bg-sky-950 text-slate-100 px-6 py-8">
       <div className="mx-auto max-w-5xl">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-semibold text-sky-400">
-              Your Documents
-            </h1>
-            <p className="mt-2 text-sm text-slate-400">
+            <h1 className="text-3xl font-semibold">
               Create and manage your collaborative documents.
-            </p>
+            </h1>
           </div>
 
           <button
             onClick={logout}
-            className="rounded-md border border-slate-700 px-3 py-2 text-sm text-slate-300 hover:bg-slate-900 cursor-pointer"
+            className="rounded-md border border-white px-2 py-1 text-md text-slate-300 hover:bg-slate-900 cursor-pointer font-semibold"
           >
             Logout
           </button>
         </div>
 
-        <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-900 p-5">
-          <h2 className="font-medium">Create document</h2>
+        <section className="mt-8 rounded-2xl border border-slate-300 bg-sky-900 p-5">
+          <h2 className="font-semibold">Create document</h2>
 
           <div className="mt-4 flex gap-3">
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Document title"
-              className="flex-1 rounded-md border border-slate-700 bg-slate-950 px-3 py-2 outline-none focus:border-sky-500"
+              className="flex-1 rounded-md border border-slate-300 bg-sky-950 px-3 py-2 outline-none focus:border-sky-500"
             />
 
             <button
               onClick={createDocument}
               disabled={creating}
-              className="rounded-md bg-sky-600 px-4 py-2 font-medium text-white disabled:bg-slate-600 cursor-pointer"
+              className="rounded-md bg-sky-600 px-4 py-2 font-medium text-white disabled:bg-slate-600 cursor-pointer border border-black"
             >
               {creating ? "Creating..." : "Create"}
             </button>
@@ -120,7 +117,7 @@ export default function DocumentsPage() {
           {loading ? (
             <p className="text-slate-400">Loading...</p>
           ) : documents.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-slate-700 p-8 text-center text-slate-400">
+            <div className="rounded-2xl border border-dashed border-slate-300 p-8 text-center text-slate-400">
               No documents yet. Create your first one.
             </div>
           ) : (
@@ -129,17 +126,17 @@ export default function DocumentsPage() {
                 <button
                   key={doc.id}
                   onClick={() => router.push(`/documents/${doc.id}`)}
-                  className="rounded-2xl border border-slate-800 bg-slate-900 p-5 text-left hover:border-sky-600 cursor-pointer"
+                  className="rounded-2xl border border-slate-300 bg-sky-900 p-5 text-left hover:border-sky-600 cursor-pointer"
                 >
-                  <h3 className="text-lg font-medium text-slate-100">
+                  <h3 className="text-lg font-semibold text-slate-100">
                     {doc.title}
                   </h3>
 
-                  <p className="mt-2 line-clamp-2 text-sm text-slate-400">
+                  <p className="mt-2 line-clamp-2 text-sm text-slate-200">
                     {doc.content || "Empty document"}
                   </p>
 
-                  <p className="mt-4 text-xs text-slate-500">
+                  <p className="mt-4 text-xs text-slate-300">
                     Updated {new Date(doc.updatedAt).toLocaleString()}
                   </p>
                 </button>

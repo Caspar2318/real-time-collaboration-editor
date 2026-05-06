@@ -18,8 +18,21 @@ export async function GET(req: NextRequest) {
   }
 
   const documents = await db.document.findMany({
-    where: { ownerId: userId },
-    orderBy: { updatedAt: "desc" },
+    where: {
+      OR: [
+        { ownerId: userId },
+        {
+          collaborators: {
+            some: {
+              userId,
+            },
+          },
+        },
+      ],
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
   });
 
   return NextResponse.json({ documents });

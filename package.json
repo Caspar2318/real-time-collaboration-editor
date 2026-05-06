@@ -3,14 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node server.ts",
+    "dev": "tsx server.ts",
     "build": "next build",
-    "start": "NODE_ENV=production node server.ts",
+    "start": "NODE_ENV=production tsx server.ts",
     "lint": "next lint"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "@tiptap/react": "^3.22.5",
+    "@tiptap/starter-kit": "^3.22.5",
     "bcryptjs": "^3.0.3",
     "jose": "^6.2.3",
     "next": "16.2.4",
@@ -30,6 +32,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

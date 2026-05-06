@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Real-time Collaboration Editor
 
-## Getting Started
+A real-time collaborative editor inspired by Notion and Google Docs.
 
-First, run the development server:
+Users can create documents, invite collaborators, and edit together in real time.
+
+Built mainly to practice realtime systems and collaborative product architecture.
+
+---
+
+## Tech Stack
+
+- Next.js App Router
+- TypeScript
+- Prisma 7
+- PostgreSQL (Neon)
+- Socket.io
+- Tiptap
+- Tailwind CSS
+
+---
+
+## Features
+
+- User authentication
+- Create and edit documents
+- Rich text editor
+- Autosave with debounce
+- Realtime collaboration
+- Online user presence
+- Typing indicator
+- Cursor position tracking
+- Invite collaborators by email
+- Shared document permissions
+- Basic conflict handling
+
+---
+
+## Local Setup
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Setup environment variables:
+
+```env
+DATABASE_URL=
+JWT_SECRET=
+NEXT_PUBLIC_SOCKET_URL=http://localhost:3000
+```
+
+Run Prisma:
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+Start development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Notes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project uses a custom Socket.io server, so Railway or Render is recommended for deployment instead of Vercel.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Future Improvements
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Better realtime cursor overlay
+- CRDT / OT support
+- Workspace & folders
+- Version history
+- Comments system
+- Notifications
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Why I Built This
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+I wanted to build something beyond a typical CRUD project and learn how realtime collaborative systems work.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project helped me practice:
+
+- WebSocket communication
+- Presence systems
+- State synchronization
+- Conflict handling
+- Full-stack TypeScript architecture
